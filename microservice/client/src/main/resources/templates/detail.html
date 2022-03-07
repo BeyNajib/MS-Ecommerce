@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1 th:text= "${product.get().getName()}"></h1>
+    <img th:src="${product.get().getIllustration()}" class="card-img-top" />
+    <h3 th:text= "${product.get().getDescription()}"></h3>
+    <h3 th:text= "${product.get().getPrice() } + ' €'"></h3>
+
+</body>
+</html>

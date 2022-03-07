@@ -13,6 +13,6 @@ public interface MsProductProxy {
     @GetMapping(value = "/products")
     public List<ProductBean> list();
 
-    @GetMapping(value = "/product/{id}")
+    @GetMapping(value = "/products/{id}")
     public Optional<ProductBean> get(@PathVariable Long id);
 }

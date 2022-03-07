@@ -4,11 +4,10 @@ import com.example.product.entity.Product;
 import com.example.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,12 +23,22 @@ public class ProductController {
         return productList;
     }
 
-    @GetMapping(value = "/product/{id}")
+    @GetMapping(value = "/products/{id}")
     public Optional<Product> get(@PathVariable Long id)
     {
         Optional<Product> productInstance = productRepository.findById(id);
         if (!productInstance.isPresent())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Specified product doesn't exist");
         return productInstance;
+    }
+
+    @PostMapping(value = "/products")
+    public String post(@RequestBody Product product){
+        Product produitFinal = productRepository.saveAndFlush(product);
+        if(produitFinal.getId() != null) {
+            return "Produit crée";
+        } else {
+            return "Erreur lors de la création du produit (error 500)";
+        }
     }
 }
