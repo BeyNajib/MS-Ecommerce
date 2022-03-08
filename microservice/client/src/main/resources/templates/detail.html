@@ -6,9 +6,11 @@
 </head>
 <body>
     <h1 th:text= "${product.get().getName()}"></h1>
-    <img th:src="${product.get().getIllustration()}" class="card-img-top" />
+    <img th:src="${product.get().getIllustration()}" class="card-img-top"  alt="img jeu" />
     <h3 th:text= "${product.get().getDescription()}"></h3>
     <h3 th:text= "${product.get().getPrice() } + ' €'"></h3>
-
+    <form action="#" th:action="@{/cart/add}" th:object="${product}" method="post">
+        <input type="submit" value="ajouter au panier"/>
+    </form>
 </body>
 </html>
