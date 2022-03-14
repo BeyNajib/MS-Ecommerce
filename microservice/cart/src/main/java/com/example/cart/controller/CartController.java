@@ -13,6 +13,8 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
+import static sun.misc.Version.print;
+
 @RestController
 public class CartController {
     @Autowired
@@ -22,7 +24,7 @@ public class CartController {
     CartItemRepository cartItemRepository;
 
     @PostMapping(value = "/cart")
-    public ResponseEntity<Cart> createNewCart(@RequestBody Cart cartData)
+    public ResponseEntity<Cart> createNewCart()
     {
         Cart cart = cartRepository.save(new Cart());
         if (cart == null)
@@ -41,13 +43,14 @@ public class CartController {
 
     @PostMapping(value = "/cart/{id}")
     @Transactional
-    public ResponseEntity<CartItem> addProductToCart(@PathVariable Long id, @RequestBody CartItem cartItem)
+    public ResponseEntity<Cart> addProductToCart(@PathVariable Long id, @RequestBody CartItem cartItem)
     {
-        Cart cart = cartRepository.getOne(id);
-        if (cart == null)
+        Optional<Cart> cartOptional = cartRepository.findById(id);
+        if (!cartOptional.isPresent())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't get cart");
+        Cart cart = cartOptional.get();
         cart.addProduct(cartItem);
-        cartRepository.save(cart);
-        return new ResponseEntity<CartItem>(cartItem, HttpStatus.CREATED);
+        cartRepository.saveAndFlush(cart);
+        return new ResponseEntity<Cart>(cart, HttpStatus.CREATED);
     }
 }

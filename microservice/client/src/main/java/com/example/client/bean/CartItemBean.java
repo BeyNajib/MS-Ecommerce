@@ -7,6 +7,11 @@ public class CartItemBean {
         this.quantity = quantity;
     }
 
+    public CartItemBean(Long productId, Integer quantity) {
+        this.productId = productId;
+        this.quantity = quantity;
+    }
+
     private Long id;
     private Long productId;
     private Integer quantity;
