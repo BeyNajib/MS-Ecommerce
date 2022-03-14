@@ -41,9 +41,9 @@ public class ClientController {
         return "detail";
     }
 
-    @PostMapping(value = "/cart/add", produces = "text/plain")
-    public String cartAdd(@ModelAttribute ProductBean productBean){
-        CartItemBean cartItemBean = new CartItemBean(productBean.getId(), 1);
+    @PostMapping(value = "/cart/add/{productId}", produces = "text/plain")
+    public String cartAdd(@PathVariable Long productId){
+        CartItemBean cartItemBean = new CartItemBean(productId, 1);
         ResponseEntity<CartBean> cartBeanResponseEntity = msCartProxy.createNewCart();
         CartBean cart = msCartProxy.addProductToCart(cartBeanResponseEntity.getBody().getId(), cartItemBean).getBody();
         return "ajouter au panier";

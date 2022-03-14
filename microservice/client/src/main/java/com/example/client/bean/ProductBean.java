@@ -54,4 +54,5 @@ public class ProductBean {
     public void setPrice(Double price) {
         this.price = price;
     }
+
 }

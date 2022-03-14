@@ -9,8 +9,9 @@
     <img th:src="${product.get().getIllustration()}" class="card-img-top"  alt="img jeu" />
     <h3 th:text= "${product.get().getDescription()}"></h3>
     <h3 th:text= "${product.get().getPrice() } + ' €'"></h3>
-    <form action="#" th:action="@{/cart/add}" th:object="${product}" method="post">
-        <input type="submit" value="ajouter au panier"/>
+    <form th:action="@{|/cart/add/${product.get().getId()}|}" th:object="${product}" th:method="post">
+<!--        <input type="hidden" th:value="*{product.get().getName()}" th:field="*{product}" hidden/>-->
+        <button type="submit"> Ajouter au panier </button>
     </form>
 </body>
 </html>
