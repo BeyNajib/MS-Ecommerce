@@ -5,14 +5,14 @@ import com.example.client.bean.CartItemBean;
 import com.example.client.bean.ProductBean;
 import com.example.client.proxies.MsCartProxy;
 import com.example.client.proxies.MsProductProxy;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +41,11 @@ public class ClientController {
         return "detail";
     }
 
-    @PostMapping(value = "/cart/add", produces = "text/plain")
-    public String cartAdd(@RequestBody ProductBean productBean){
-        CartItemBean cartItemBean =new CartItemBean(Long.valueOf(uniqueClientId), productBean.getId(), 1);
-        if(!msCartProxy.getCart(Long.valueOf(uniqueClientId)).isPresent()) {
-            msCartProxy.createNewCart(new CartBean(Long.valueOf(uniqueClientId), new ArrayList<CartItemBean>(){{add(cartItemBean);}}));
-        }
-        msCartProxy.addProductToCart(Long.valueOf(uniqueClientId), cartItemBean);
-        return "addToCart";
+    @PostMapping(value = "/cart/add/{productId}", produces = "text/plain")
+    public String cartAdd(@PathVariable Long productId){
+        CartItemBean cartItemBean = new CartItemBean(productId, 1);
+        ResponseEntity<CartBean> cartBeanResponseEntity = msCartProxy.createNewCart();
+        CartBean cart = msCartProxy.addProductToCart(cartBeanResponseEntity.getBody().getId(), cartItemBean).getBody();
+        return "ajouter au panier";
     }
 }

@@ -37,5 +37,6 @@ public class Cart {
     }
 
     public void addProduct(CartItem cartItem) {
+        products.add(cartItem);
     }
 }
