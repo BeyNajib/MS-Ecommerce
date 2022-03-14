@@ -4,6 +4,7 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/microservice/cart" />
     <file type="web" url="file://$PROJECT_DIR$/microservice/client" />
+    <file type="web" url="file://$PROJECT_DIR$/microservice/order" />
     <file type="web" url="file://$PROJECT_DIR$/microservice/product" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
