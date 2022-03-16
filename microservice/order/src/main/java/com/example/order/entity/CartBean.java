@@ -9,7 +9,7 @@ public class CartBean {
     @Id
     @GeneratedValue
     private Long id;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.MERGE)
     private List<CartItemBean> products;
 
     public CartBean(List<CartItemBean> products) {

@@ -6,9 +6,10 @@ import javax.persistence.Id;
 
 @Entity
 public class CartItem {
-    public CartItem(Long id, Long productId, Integer quantity) {
+    public CartItem(Long id, Long productId, Integer quantity, Double price) {
         this.id = id;
         this.productId = productId;
+        this.price = price;
         this.quantity = quantity;
     }
 
@@ -17,6 +18,7 @@ public class CartItem {
     private Long id;
     private Long productId;
     private Integer quantity;
+    private Double price;
 
     public CartItem() {
 
@@ -44,5 +46,13 @@ public class CartItem {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

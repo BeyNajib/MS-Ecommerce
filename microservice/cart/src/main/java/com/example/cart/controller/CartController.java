@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Optional;
 
-import static sun.misc.Version.print;
 
 @RestController
 public class CartController {
@@ -51,6 +51,16 @@ public class CartController {
         Cart cart = cartOptional.get();
         cart.addProduct(cartItem);
         cartRepository.saveAndFlush(cart);
-        return new ResponseEntity<Cart>(cart, HttpStatus.CREATED);
+        return new ResponseEntity<>(cart, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(value = "cart/{id}/empty")
+    public void emptyCart(@PathVariable Long id) {
+        Optional<Cart> cartOptional = cartRepository.findById(id);
+        if (!cartOptional.isPresent())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldn't get cart");
+        Cart cart = cartOptional.get();
+        cart.setProducts(new ArrayList<>());
+        cartRepository.saveAndFlush(cart);
     }
 }

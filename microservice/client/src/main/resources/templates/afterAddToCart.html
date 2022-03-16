@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Microservice Client</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css} "/>
+</head>
+<body>
+<form th:action="@{/cart/order}" th:object="${cart}" th:method="post">
+    <button type="submit"> Passer la commande </button>
+</form>
+</body>
+</html>

@@ -1,29 +1,15 @@
-package com.example.order.entity;
+package com.example.client.bean;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Entity
-public class Order {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
+public class CommandeBean {
     private Timestamp timestamp;
     private double totalPrice;
     private double paidTotal;
-    @OneToOne
     private CartBean cartBean;
 
-    public Order() {}
+    public CommandeBean() {
 
-    public Order(Long id, CartBean cartBean, Timestamp timestamp, double totalPrice, double paidTotal) {
-        this.id = id;
-        this.cartBean = cartBean;
-        this.timestamp = timestamp;
-        this.totalPrice = totalPrice;
-        this.paidTotal = paidTotal;
     }
 
     public Timestamp getTimestamp() {
@@ -48,14 +34,6 @@ public class Order {
 
     public void setPaidTotal(double paidTotal) {
         this.paidTotal = paidTotal;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public CartBean getCartBean() {
