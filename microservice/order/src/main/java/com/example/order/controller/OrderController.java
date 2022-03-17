@@ -7,6 +7,7 @@ import com.example.order.repository.CartBeanRepository;
 import com.example.order.repository.CartItemBeanRepository;
 import com.example.order.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -42,13 +43,23 @@ public class OrderController {
     @PostMapping("/order")
     public Optional<Commande> createOrder(@RequestBody CartBean cartBean) {
         Commande order = new Commande();
-        order.setCartBean(cartBean);
         double prix = 0;
+        cartBean.setId(null);
+        order.setId(null);
+        order.setCartBean(cartBean);
         for(CartItemBean cartItemBean: cartBean.getProducts()) {
+            cartItemBean.setId(null);
             prix += cartItemBean.getPrice() * cartItemBean.getQuantity();
         }
         order.setTotalPrice(prix);
-        this.orderRepository.saveAndFlush(order);
+        try {
+            this.cartItemRepository.saveAll(cartBean.getProducts());
+            this.cartRepository.save(cartBean);
+            this.orderRepository.save(order);
+        } catch (DataAccessException e) {
+            System.out.println(e.getLocalizedMessage());
+            return Optional.empty();
+        }
         return Optional.of(order);
     }
 }
